@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 
 class AuthViewModel(application: Application):AndroidViewModel(application) {
     val user = MutableLiveData<FirebaseUser>()
@@ -17,16 +18,16 @@ class AuthViewModel(application: Application):AndroidViewModel(application) {
         user.postValue(mAuth.currentUser)
         authMethod.postValue(AuthMethod.SIGNIN)
     }
-    fun signUp(email:String, password:String){
+    fun signUp(email:String, password:String, name:String){
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    val request = UserProfileChangeRequest.Builder().setDisplayName(name).build()
+                    mAuth.currentUser?.updateProfile(request)
                     user.postValue(mAuth.currentUser)
                 } else {
                     user.postValue(null)
                 }
-
-                // ...
             }
     }
     fun login(email:String, password:String){
@@ -37,8 +38,6 @@ class AuthViewModel(application: Application):AndroidViewModel(application) {
                 } else {
                     user.postValue(null)
                 }
-
-                // ...
             }
     }
 }
@@ -47,3 +46,4 @@ enum class AuthMethod {
     SIGNIN,
     SIGNUP
 }
+
