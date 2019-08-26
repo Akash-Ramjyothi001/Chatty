@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
         viewmodel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
         viewmodel.init()
         viewmodel.user.observe(this@LoginActivity, Observer {
-           if(it==null){
+              if(it==null){
                return@Observer
            }
             else{
