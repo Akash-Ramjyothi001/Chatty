@@ -20,6 +20,7 @@ import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.core.view.GravityCompat
 import android.view.*
+import java.text.SimpleDateFormat
 
 
 class ChatsActivity : AppCompatActivity() {
@@ -73,7 +74,8 @@ class ChatsActivity : AppCompatActivity() {
             ) {
                 viewHolder.userNameTextView.text = chattyMessage.userName
                 viewHolder.messageTextView.text = chattyMessage.message
-                viewHolder.timestampTextView.text = Date(chattyMessage.timestamp!!).toString()
+                val dateFormat = SimpleDateFormat("hh:mm")
+                viewHolder.timestampTextView.text = dateFormat.format(Date(chattyMessage.timestamp!!))
 
                 val params = FrameLayout.LayoutParams(viewHolder.card.layoutParams)
                 if(chattyMessage.senderId == mAuth.currentUser?.uid){
